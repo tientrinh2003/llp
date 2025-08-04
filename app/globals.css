@@ -2,6 +2,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Phần này giữ nguyên, nó liên kết các biến CSS với các lớp của Tailwind */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -42,41 +43,64 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* --- BẢNG MÀU TÙY CHỈNH CỦA BẠN (CHẾ ĐỘ SÁNG) --- */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
+
+  /* Nền và chữ mặc định */
+  --background: oklch(0.99 0.005 90);              /* Nền màu trắng ngà rất nhẹ */
+  --foreground: oklch(0.25 0.01 50);              /* Chữ màu đen sẫm */
+  
+  /* Card & Popover - có nền riêng để nổi bật trên --background */
+  --card: oklch(1 0 0);                           /* Nền card màu trắng tinh */
+  --card-foreground: oklch(0.25 0.01 50);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
-  --primary-foreground: oklch(0.985 0.001 106.423);
-  --secondary: oklch(0.97 0.001 106.424);
-  --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
-  --muted-foreground: oklch(0.553 0.013 58.071);
-  --accent: oklch(0.97 0.001 106.424);
-  --accent-foreground: oklch(0.216 0.006 56.043);
+  --popover-foreground: oklch(0.25 0.01 50);
+
+  /* Màu chủ đạo (Primary) - Từ màu "brand: #e4c590" */
+  --primary: #F8E05C;
+  --primary-foreground: oklch(0.25 0.01 50);      /* Chữ tối trên nền primary */
+  
+  /* Màu phụ (Secondary) - Từ màu "brandLight: #f3eadb" */
+  --secondary :#F8E05C80;
+  --secondary-foreground: oklch(91.42% 0.1108 90.286 / 0.427);     /* Chữ màu tối vừa trên nền secondary */
+
+  /* Màu nhấn (Accent) - Dùng cho các thành phần cần sự chú ý nhẹ, như ô input */
+  --accent: oklch(0.99 0.03 98);                  /* Từ màu "accent: #fffbe9" */
+  --accent-foreground: oklch(0.45 0.02 90);       /* Chữ trên nền accent */
+  
+  /* Màu Muted - Dùng cho các văn bản, phần tử ít quan trọng */
+  --muted: oklch(0.97 0.01 90);                   /* Một màu xám rất nhạt */
+  --muted-foreground: oklch(0.35 0 0 / 0.7);      /* Từ màu "mutedText: #454545B2" */
+
+  /* Màu cảnh báo (Destructive) - Giữ nguyên màu đỏ mặc định */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
-  --input: oklch(0.923 0.003 48.717);
-  --ring: oklch(0.709 0.01 56.259);
+
+  /* Viền, Input và Ring (vòng sáng khi focus) */
+  --border: oklch(0.92 0.03 88);                  /* Viền màu sáng, hơi đậm hơn secondary */
+  --input: var(--border);                         /* Input có cùng màu viền */
+  --ring: oklch(0.81 0.17 92);                    /* Ring có màu "headerText: #fbbf24" */
+
+  /* Các màu này bạn có thể giữ nguyên hoặc tùy chỉnh nếu dùng đến biểu đồ */
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.001 106.423);
-  --sidebar-foreground: oklch(0.147 0.004 49.25);
-  --sidebar-primary: oklch(0.216 0.006 56.043);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.97 0.001 106.424);
-  --sidebar-accent-foreground: oklch(0.216 0.006 56.043);
-  --sidebar-border: oklch(0.923 0.003 48.717);
-  --sidebar-ring: oklch(0.709 0.01 56.259);
+
+  /* Sidebar có thể dùng chung theme hoặc tùy chỉnh riêng */
+  --sidebar: var(--primary);
+  --sidebar-foreground: var(--primary-foreground);
+  --sidebar-primary: var(--primary-foreground);
+  --sidebar-primary-foreground: var(--primary);
+  --sidebar-accent: oklch(1 0 0 / 0.15); /* Màu trắng trong suốt để tạo hiệu ứng */
+  --sidebar-accent-foreground: var(--primary-foreground);
+  --sidebar-border: oklch(1 0 0 / 0.1);
+  --sidebar-ring: var(--ring);
 }
 
+/* --- CHẾ ĐỘ TỐI (DARK MODE) --- */
+/* Bạn có thể tùy chỉnh lại bảng màu tối nếu cần. Hiện tại đang giữ mặc định. */
 .dark {
   --background: oklch(0.147 0.004 49.25);
   --foreground: oklch(0.985 0.001 106.423);
@@ -96,19 +120,10 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.216 0.006 56.043);
-  --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-accent: oklch(0.268 0.007 34.298);
-  --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.553 0.013 58.071);
+}
+
+.font-stencil {
+  font-family: var(--font-stencil);
 }
 
 @layer base {
@@ -120,7 +135,7 @@
   }
   .carousel-button-prev,
   .carousel-button-next {
-    @apply h-10 w-10 rounded-full bg-white/60 backdrop-blur-sm text-amber-800 hover:bg-white/80;
+    @apply h-10 w-10 rounded-full bg-card/60 backdrop-blur-sm text-primary hover:bg-card/80;
     @apply absolute top-1/2 -translate-y-1/2;
   }
 

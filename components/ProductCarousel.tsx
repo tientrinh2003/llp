@@ -42,7 +42,7 @@ const ProductCarousel = () => {
   }, [api, onSelect]);
 
   return (
-    <section className="py-16 bg-background relative overflow-hidden px-4">
+    <section className="py-8 bg-background relative overflow-hidden px-4">
       <div className="absolute inset-y-0 left-0 w-1/4 z-10 pointer-events-none bg-gradient-to-r from-background to-transparent hidden sm:block" />
       <div className="absolute inset-y-0 right-0 w-1/4 z-10 pointer-events-none bg-gradient-to-l from-background to-transparent hidden sm:block" />
 
@@ -78,7 +78,7 @@ const ProductCarousel = () => {
                     className={cn(
                       // THAY ĐỔI: Quay trở lại chiều cao cố định như cũ
                       "relative w-full h-[380px] overflow-hidden shadow-lg transition-colors duration-300 flex items-center justify-center",
-                      isSelected ? "bg-[#E2BC7F]" : "bg-[#F3EADB]"
+                      isSelected ? "bg-primary" : "bg-secondary"
                     )}
                   >
                     <div
