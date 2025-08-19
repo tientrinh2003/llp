@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const Header = () => {
   return (
-    <header className="flex items-center justify-between py-8 px-4 sm:px-16 bg-background">
+    <header className="flex items-center justify-between px-4 sm:px-16 bg-background">
       <div className="hidden md:block">
         <Image
           src="/products/ff5ceac5ad34970be379ea07a3142f5d0ae3e34b.gif"

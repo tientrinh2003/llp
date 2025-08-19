@@ -1,10 +1,13 @@
 // app/layout.tsx
 import type { Metadata } from 'next';
-import { Inter,Allerta_Stencil } from 'next/font/google';
+import { Inter, Allerta_Stencil, Barlow } from 'next/font/google';
 import './globals.css';
+import Header from '@/components/Header';
+import MainNav from '@/components/MainNav';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const allerta = Allerta_Stencil({ weight: '400', subsets: ['latin'], variable: '--font-stencil' });
+const barlow = Barlow({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-barlow' });
 
 export const metadata: Metadata = {
   title: 'LLP - Tiên phong phân phối thiết bị công nghệ',
@@ -18,8 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={`${inter.variable} ${allerta.variable} bg-background`}>
-        {/* Chỉ render children, không có sidebar hay div bao bọc */}
+      <body className={`${inter.variable} ${allerta.variable} ${barlow.variable} bg-background`}>
+      <Header />
         {children}
       </body>
     </html>

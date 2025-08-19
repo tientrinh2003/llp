@@ -42,50 +42,37 @@ const ProductCarousel = () => {
   }, [api, onSelect]);
 
   return (
-    <section className="py-8 bg-background relative overflow-hidden px-4">
-      <div className="absolute inset-y-0 left-0 w-1/4 z-10 pointer-events-none bg-gradient-to-r from-background to-transparent hidden sm:block" />
-      <div className="absolute inset-y-0 right-0 w-1/4 z-10 pointer-events-none bg-gradient-to-l from-background to-transparent hidden sm:block" />
-
-      <Carousel
-        setApi={setApi}
-        opts={{ align: "center", loop: true }}
-        className="w-full"
-      >
-        <CarouselContent className="-ml-10 items-center">
-          {categories.map((category, index) => {
-            const isSelected = current === index;
-            return (
-              <CarouselItem
-                key={index}
-                className="basis-4/5 sm:basis-1/2 md:basis-1/3 xl:basis-1/5 pl-15 py-12"
-              >
-                <div
-                  className={cn(
-                    "w-full flex flex-col items-center justify-end transition-transform duration-300 ease-in-out",
-                    isSelected ? "scale-120 z-20" : "scale-100 z-0"
-                  )}
+    <section className="bg-gray-50">
+      <div className="container mx-auto sm:px-8 md:px-12 lg:px-20 xl:px-28 py-10 overflow-visible">
+        <Carousel
+          setApi={setApi}
+          opts={{ align: "center", loop: true }}
+          className="w-full"
+        >
+          <CarouselContent className="flex gap-[8px] overflow-visible">
+            {categories.map((category, index) => {
+              const isSelected = current === index;
+              return (
+                <CarouselItem
+                  key={index}
+                  className="flex-none w-[130px] sm:w-[160px] md:w-[180px] lg:w-[200px] xl:w-[220px] snap-center"
                 >
-                  <h3
-                    className={cn(
-                      "mb-2 text-center text-2xl font-bold text-gray-600 transition-opacity duration-300 whitespace-nowrap",
-                      isSelected ? "opacity-100" : "opacity-40"
-                    )}
-                  >
-                    {category.title}
-                  </h3>
-                  
                   <div
                     className={cn(
-                      // THAY ĐỔI: Quay trở lại chiều cao cố định như cũ
-                      "relative w-full h-[380px] overflow-hidden shadow-lg transition-colors duration-300 flex items-center justify-center",
-                      isSelected ? "bg-primary" : "bg-secondary"
+                      "origin-bottom flex flex-col items-center justify-end py-10 gap-5 transition-all duration-500 ease-out",
+                      isSelected ? "scale-110 z-10" : "scale-90 opacity-50"
                     )}
                   >
-                    <div
+                    <h3
                       className={cn(
-                        "transition-opacity duration-300 w-4/5 h-4/5 relative",
-                        isSelected ? "opacity-100" : "opacity-60"
+                        "text-center text-[20px] md:text-[22px] lg:text-[24px] font-barlow font-semibold text-gray-500 transition-opacity duration-500 whitespace-nowrap",
+                        isSelected ? "opacity-100" : "opacity-90"
                       )}
+                    >
+                      {category.title}
+                    </h3>
+                    <div
+                      className="relative w-full aspect-[9/16] bg-primary overflow-hidden font-semibold font-barlow "
                     >
                       <Image
                         src={placeholder_image}
@@ -93,20 +80,17 @@ const ProductCarousel = () => {
                         fill
                         style={{ objectFit: "contain" }}
                         sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
-                        onError={(e) => {
-                          e.currentTarget.style.display = "none";
-                        }}
                       />
                     </div>
                   </div>
-                </div>
-              </CarouselItem>
-            );
-          })}
-        </CarouselContent>
-        <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 left-2 md:left-8 z-30 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/60 text-amber-800 hover:bg-white/80" />
-        <CarouselNext className="absolute top-1/2 -translate-y-1/2 right-2 md:right-8 z-30 h-10 w-10 md:h-12 md:w-12 rounded-full bg-white/60 text-amber-800 hover:bg-white/80" />
-      </Carousel>
+                </CarouselItem>
+              );
+            })}
+          </CarouselContent>
+          <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-8 md:-left-10 lg:-left-14 xl:-left-20 z-20 h-12 w-12 rounded-full bg-white/80 text-primary shadow-md hover:bg-white" />
+          <CarouselNext className="absolute top-1/2 -translate-y-1/2 -right-6 sm:-right-8 md:-right-10 lg:-right-14 xl:-right-20 z-20 h-12 w-12 rounded-full bg-white/80 text-primary shadow-md hover:bg-white" />
+        </Carousel>
+      </div>
     </section>
   );
 };
