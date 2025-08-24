@@ -4,7 +4,7 @@ import { Star } from "lucide-react";
 
 export default function ProductCard() {
   return (
-    <Card className="w-full rounded-xl shadow-md relative overflow-hidden">
+    <Card className="w-full max-w-[300px] h-[400px] rounded-xl shadow-md relative overflow-hidden flex flex-col mb-6">
       {/* Badge Giảm giá */}
       <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
         Giảm 14%
@@ -15,15 +15,18 @@ export default function ProductCard() {
         Trả góp 0%
       </div>
 
-      {/* Hình sản phẩm */}
-      <CardContent className="p-4 flex flex-col items-center">
-        <Image
-          src="/iphone16.png"
-          alt="iPhone 16 Pro Max"
-          width={120}
-          height={120}
-          className="object-contain"
-        />
+      {/* Nội dung Card */}
+      <CardContent className="flex flex-col items-center justify-between h-full p-4">
+        {/* Ảnh sản phẩm */}
+        <div className="flex justify-center items-center h-[140px]">
+          <Image
+            src="/iphone16.png"
+            alt="iPhone 16 Pro Max"
+            width={120}
+            height={120}
+            className="object-contain"
+          />
+        </div>
 
         {/* Tên sản phẩm */}
         <p className="text-gray-700 font-medium text-sm mt-3 text-center line-clamp-2">
@@ -32,19 +35,13 @@ export default function ProductCard() {
 
         {/* Giá */}
         <div className="mt-2 text-center">
-          <p className="text-red-600 font-bold text-lg">29.990.000₫</p>
-          <p className="text-gray-400 line-through text-sm">34.990.000₫</p>
+          <p className="text-red-600 font-bold text-lg leading-none">
+            29.990.000₫
+          </p>
+          <p className="text-gray-400 line-through text-sm leading-none">
+            34.990.000₫
+          </p>
         </div>
-
-        {/* Smember giảm giá */}
-        <p className="bg-gray-100 text-gray-600 text-xs mt-2 px-2 py-1 rounded">
-          Smember giảm đến 300.000₫
-        </p>
-
-        {/* Mô tả thêm */}
-        <p className="text-gray-500 text-xs text-center mt-1 line-clamp-2">
-          Không phí chuyển đổi khi trả góp 0% qua thẻ tín dụng kỳ hạn 3–6...
-        </p>
 
         {/* Rating + Yêu thích */}
         <div className="flex items-center justify-between w-full mt-3">

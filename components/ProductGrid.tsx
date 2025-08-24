@@ -23,7 +23,6 @@ export default function ProductGrid() {
 
   return (
     <div className="mx-6 my-6">
-      {/* Bộ chọn số lượng */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <span className="text-gray-600 text-sm">Hiển thị:</span>
@@ -31,7 +30,7 @@ export default function ProductGrid() {
             defaultValue="10"
             onValueChange={(val) => {
               setLimit(Number(val));
-              setPage(1); // reset về trang đầu khi đổi limit
+              setPage(1);
             }}
           >
             <SelectTrigger className="w-[80px]">
@@ -51,15 +50,21 @@ export default function ProductGrid() {
         </div>
       </div>
 
-      {/* Grid sản phẩm */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Grid sản phẩm (responsive bằng auto-fit) */}
+      <div className="grid gap-4 justify-center grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
         {currentProducts.map((_, index) => (
-          <ProductCard key={index} />
+          <div key={index} className="flex justify-center">
+            <ProductCard />
+          </div>
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-4 mt-6">
+      <div className="w-full flex flex-col items-center gap-2 mt-6">
+      <div className="text-sm text-gray-500 font-medium">
+          {page}/{totalPages}
+        </div>
+      <div className="flex justify-center items-center gap-4">
         <Button
           variant="outline"
           disabled={page === 1}
@@ -74,6 +79,7 @@ export default function ProductGrid() {
         >
           Sau
         </Button>
+      </div>
       </div>
     </div>
   );

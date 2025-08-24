@@ -1,14 +1,14 @@
 // app/page.tsx
-import MainNav from "@/components/MainNav";
 import ProductCarousel from "@/components/ProductCarousel";
 import ProductGrid from "@/components/ProductGrid";
+import Header from "@/components/Header";
 
 export default function HomePage() {
   return (
     <>
       <div className="bg-background relative">
+        <Header />
         <ProductCarousel />
-        <MainNav />
       </div>
       <div
         className="my-3 mx-6 h-[62px] flex items-center justify-center 
