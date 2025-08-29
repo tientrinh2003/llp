@@ -9,13 +9,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import GoogleSignInButton from "../GoogleSignInButton";
 
 const FormSchema = z
   .object({
@@ -45,7 +45,7 @@ const SignUpForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    const res = await fetch("/api/auth/signup", {
+    const res = await fetch("/api/auth/sign-up", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const SignUpForm = () => {
     });
     if (res.ok) {
       console.log("User created successfully");
-      router.push("/signin");
+      router.push("/sign-in");
     } else {
       const errorData = await res.json();
       console.error("Error creating user:", errorData.message);
@@ -152,7 +152,7 @@ const SignUpForm = () => {
 
       {/* Sign In link */}
       <p className="text-center text-sm text-gray-600 mt-2">
-        If you don&apos;t have an account, please&nbsp;
+        If you already have an account, please&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-in">
           Sign in
         </Link>
