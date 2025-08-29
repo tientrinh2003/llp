@@ -1,38 +1,37 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const PUBLIC_PATHS = [
-  "/", "/sign-in", "/sign-up", "/products", "/news", "/promotions"
-];
+const protectedPaths = ['/admin', '/user'];
+
+function isProtectedPath(pathname: string) {
+  return protectedPaths.some((basePath) => pathname.startsWith(basePath));
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
-    PUBLIC_PATHS.some(
-      (path) =>
-        pathname === path ||
-        pathname.startsWith(path + "/") ||
-        pathname.startsWith(path + "?")
-    )
+    pathname.startsWith('/api') ||
+    pathname === '/' ||
+    pathname.startsWith('/auth')
   ) {
     return NextResponse.next();
   }
 
-  const sessionToken =
-    request.cookies.get("next-auth.session-token") ||
-    request.cookies.get("__Secure-next-auth.session-token");
+  // Protect /admin and /user routes
+  if (isProtectedPath(pathname)) {
+    const token =
+      request.cookies.get('next-auth.session-token')?.value ||
+      request.cookies.get('__Secure-next-auth.session-token')?.value;
 
-  if (!sessionToken) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    if (!token) {
+      return NextResponse.redirect(new URL('/sign-in', request.url));
+    }
   }
 
   return NextResponse.next();
 }
 
-// Không dùng capturing group, chỉ dùng pattern đơn giản
 export const config = {
-  matcher: [
-    "/((?!_next|static|api|favicon.ico|products|news|promotions|sign-in|sign-up|.*\\.(png|jpg|jpeg|svg|css|js|json)).*)",
-  ],
+  matcher: ['/admin/:path*', '/user/:path*'],
 };
