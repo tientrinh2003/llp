@@ -17,7 +17,7 @@ export const authOptions: NextAuthConfig = {
         if (!credentials?.username || !credentials?.password) return null;
 
         const user = await db.user.findUnique({
-          where: { username: credentials.username },
+          where: { username: credentials.username as string },
         });
 
         if (!user) return null;
