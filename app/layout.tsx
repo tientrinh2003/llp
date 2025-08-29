@@ -1,8 +1,8 @@
-// app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter, Allerta_Stencil, Barlow } from 'next/font/google';
 import './globals.css';
 import MainNav from '@/components/MainNav';
+import AuthProvider from '@/components/AuthProvider'; // Import client wrapper
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 const allerta = Allerta_Stencil({ weight: '400', subsets: ['latin'], variable: '--font-stencil' });
@@ -21,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body className={`${inter.variable} ${allerta.variable} ${barlow.variable} bg-background`}>
-        <MainNav />
-        {children}
+        <AuthProvider>
+          <MainNav />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

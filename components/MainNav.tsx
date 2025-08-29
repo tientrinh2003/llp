@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from 'react';
-import { Home, Package, Wrench, Newspaper, Users, Search, X, ShoppingCart, Menu } from 'lucide-react';
+import { Home, Package, Wrench, Newspaper, Users, Search, X, ShoppingCart, Menu, LogIn, LogOut, User } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
+import { useSession, signOut } from "next-auth/react";
+import Image from 'next/image';
 
 const navItems = [
   { icon: Home, label: 'Trang chủ', href: '/' },
@@ -17,6 +19,11 @@ const navItems = [
 const MainNav = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: "/sign-in" });
+  };
 
   return (
     <nav className="bg-primary h-[100px] flex items-center justify-between px-8 relative">
@@ -80,6 +87,43 @@ const MainNav = () => {
         ))}
       </ul>
 
+      {/* Đăng nhập/Đăng xuất/Avatar */}
+      <div className="ml-6 flex items-center gap-2">
+        {status === "loading" ? (
+          <span className="text-white">...</span>
+        ) : session?.user ? (
+          <>
+            {session.user.image ? (
+              <Image
+                src={session.user.image}
+                alt={session.user.name || "User"}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            ) : (
+              <User size={32} className="text-white" />
+            )}
+            <span className="text-white font-medium">{session.user.name || session.user.email}</span>
+            <Button
+              variant="ghost"
+              className="text-white flex gap-2 items-center"
+              onClick={handleSignOut}
+            >
+              <LogOut size={20} />
+              Đăng xuất
+            </Button>
+          </>
+        ) : (
+          <Link href="/sign-in">
+            <Button variant="ghost" className="text-white flex gap-2 items-center">
+              <LogIn size={20} />
+              Đăng nhập
+            </Button>
+          </Link>
+        )}
+      </div>
+
       {/* Hamburger Menu Button (Mobile) */}
       <button
         className="lg:hidden ml-4 text-white"
@@ -105,6 +149,39 @@ const MainNav = () => {
                 </Link>
               </li>
             ))}
+            <li className="w-full border-t pt-3 mt-3 flex items-center">
+              {session?.user ? (
+                <>
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      width={32}
+                      height={32}
+                      className="rounded-full mr-2"
+                    />
+                  ) : (
+                    <User size={20} className="text-white mr-2" />
+                  )}
+                  <span className="text-white mr-2">{session.user.name || session.user.email}</span>
+                  <Button
+                    variant="ghost"
+                    className="text-white flex gap-2 items-center"
+                    onClick={handleSignOut}
+                  >
+                    <LogOut size={18} />
+                    Đăng xuất
+                  </Button>
+                </>
+              ) : (
+                <Link href="/sign-in" onClick={() => setIsMenuOpen(false)}>
+                  <Button variant="ghost" className="text-white flex gap-2 items-center">
+                    <LogIn size={18} />
+                    Đăng nhập
+                  </Button>
+                </Link>
+              )}
+            </li>
           </ul>
         </div>
       )}

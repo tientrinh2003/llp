@@ -10,6 +10,7 @@ function isProtectedPath(pathname: string) {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Allow API and public/auth paths
   if (
     pathname.startsWith('/api') ||
     pathname === '/' ||
@@ -25,7 +26,8 @@ export function middleware(request: NextRequest) {
       request.cookies.get('__Secure-next-auth.session-token')?.value;
 
     if (!token) {
-      return NextResponse.redirect(new URL('/sign-in', request.url));
+      // Redirect unauthenticated users to sign-in
+      return NextResponse.redirect(new URL('/auth/sign-in', request.url));
     }
   }
 

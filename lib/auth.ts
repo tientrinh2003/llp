@@ -1,10 +1,10 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
+import { NextAuthOptions } from "next-auth";
 
-export const authOptions: NextAuthConfig = {
+export const authOptions : NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     CredentialsProvider({
@@ -17,15 +17,22 @@ export const authOptions: NextAuthConfig = {
         if (!credentials?.username || !credentials?.password) return null;
 
         const user = await db.user.findUnique({
-          where: { username: credentials.username as string },
+          where: { username: String(credentials.username) },
         });
 
         if (!user) return null;
 
-        const isValid = await bcrypt.compare(String(credentials.password), String(user.password));
+        const isValid = await bcrypt.compare(
+          String(credentials.password),
+          String(user.password)
+        );
         if (!isValid) return null;
 
-        return { id: user.id.toString(), name: user.name, email: user.email };
+        return {
+          id: String(user.id),
+          name: String(user.name ?? ""),
+          email: String(user.email),
+        };
       },
     }),
   ],
@@ -33,7 +40,7 @@ export const authOptions: NextAuthConfig = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/sign-in",
+    signIn: "/sign-in", // Đúng đường dẫn bạn muốn
   },
 };
 

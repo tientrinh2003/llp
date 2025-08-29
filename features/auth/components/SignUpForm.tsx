@@ -24,7 +24,7 @@ const FormSchema = z
     password: z
       .string()
       .min(1, "Password is required")
-      .min(8, "Password must have than 8 characters"),
+      .min(8, "Password must have at least 8 characters"),
     confirmPassword: z.string().min(1, "Password confirmation is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -57,20 +57,17 @@ const SignUpForm = () => {
       }),
     });
     if (res.ok) {
-      console.log("User created successfully");
       router.push("/sign-in");
     } else {
       const errorData = await res.json();
-      console.error("Error creating user:", errorData.message);
+      alert(errorData.error || "Error creating user");
     }
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-        {/* Các field */}
         <div className="space-y-2">
-          {/* Username */}
           <FormField
             control={form.control}
             name="username"
@@ -84,7 +81,6 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-          {/* Email */}
           <FormField
             control={form.control}
             name="email"
@@ -98,7 +94,6 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-          {/* Password */}
           <FormField
             control={form.control}
             name="password"
@@ -116,7 +111,6 @@ const SignUpForm = () => {
               </FormItem>
             )}
           />
-          {/* Confirm Password */}
           <FormField
             control={form.control}
             name="confirmPassword"
@@ -135,22 +129,14 @@ const SignUpForm = () => {
             )}
           />
         </div>
-
-        {/* Submit Button */}
         <Button className="w-full mt-6" type="submit">
           Sign up
         </Button>
       </form>
-
-      {/* Divider */}
       <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
         or
       </div>
-
-      {/* Google Sign In */}
       <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
-
-      {/* Sign In link */}
       <p className="text-center text-sm text-gray-600 mt-2">
         If you already have an account, please&nbsp;
         <Link className="text-blue-500 hover:underline" href="/sign-in">
