@@ -1,4 +1,3 @@
-// app/api/auth/route.ts
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
