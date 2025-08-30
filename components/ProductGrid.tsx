@@ -12,18 +12,19 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function ProductGrid() {
-  const allProducts = Array.from({ length: 100 }); // giả sử có 100 sản phẩm
+  const allProducts = Array.from({ length: 100 });
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
 
   const totalPages = Math.ceil(allProducts.length / limit);
-
   const startIndex = (page - 1) * limit;
   const currentProducts = allProducts.slice(startIndex, startIndex + limit);
 
   return (
-    <div className="mx-6 my-6">
-      <div className="flex items-center justify-between mb-4">
+    <div className="mx-4 sm:mx-6 my-6">
+      {/* Header controls */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-3">
+        {/* Limit selector */}
         <div className="flex items-center gap-2">
           <span className="text-gray-600 text-sm">Hiển thị:</span>
           <Select
@@ -44,42 +45,40 @@ export default function ProductGrid() {
           </Select>
         </div>
 
-        {/* Thông tin trang */}
+        {/* Page info */}
         <div className="text-sm text-gray-500">
           Trang {page}/{totalPages}
         </div>
       </div>
 
-      {/* Grid sản phẩm (responsive bằng auto-fit) */}
-      <div className="grid gap-4 justify-center grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+      {/* Product grid */}
+<div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-items-center">
         {currentProducts.map((_, index) => (
-          <div key={index} className="flex justify-center">
-            <ProductCard />
-          </div>
+          <ProductCard key={index} />
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="w-full flex flex-col items-center gap-2 mt-6">
-      <div className="text-sm text-gray-500 font-medium">
+      <div className="w-full flex flex-col sm:flex-row sm:justify-between items-center gap-3 mt-6">
+        <div className="text-sm text-gray-500 font-medium">
           {page}/{totalPages}
         </div>
-      <div className="flex justify-center items-center gap-4">
-        <Button
-          variant="outline"
-          disabled={page === 1}
-          onClick={() => setPage((p) => Math.max(p - 1, 1))}
-        >
-          Trước
-        </Button>
-        <Button
-          variant="outline"
-          disabled={page === totalPages}
-          onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
-        >
-          Sau
-        </Button>
-      </div>
+        <div className="flex gap-3 flex-wrap justify-center">
+          <Button
+            variant="outline"
+            disabled={page === 1}
+            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+          >
+            Trước
+          </Button>
+          <Button
+            variant="outline"
+            disabled={page === totalPages}
+            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+          >
+            Sau
+          </Button>
+        </div>
       </div>
     </div>
   );

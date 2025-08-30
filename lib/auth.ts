@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 
-export const authOptions : NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
   providers: [
     CredentialsProvider({
@@ -32,6 +32,8 @@ export const authOptions : NextAuthOptions = {
           id: String(user.id),
           name: String(user.name ?? ""),
           email: String(user.email),
+          role: String(user.role ?? "user"),
+          username: String(user.username),
         };
       },
     }),
@@ -40,7 +42,23 @@ export const authOptions : NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/sign-in", // Đúng đường dẫn bạn muốn
+    signIn: "/sign-in",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role;
+        token.username = user.username;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.role = token.role as string;
+        session.user.username = token.username as string;
+      }
+      return session;
+    },
   },
 };
 

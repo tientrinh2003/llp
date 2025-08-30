@@ -42,7 +42,8 @@ const SignInForm = () => {
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     setLoading(true);
     setError(null);
-    // NextAuth tự động gửi đến api/auth/[...nextauth] khi dùng signIn
+
+    // Gửi request đến NextAuth credentials provider
     const res = await signIn("credentials", {
       redirect: false,
       username: values.username,
@@ -52,7 +53,15 @@ const SignInForm = () => {
     setLoading(false);
 
     if (!res?.error) {
-      router.push("/");
+      // ✅ Lấy session để kiểm tra role
+      const sessionRes = await fetch("/api/auth/session");
+      const sessionData = await sessionRes.json();
+
+      if (sessionData?.user?.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/home");
+      }
     } else {
       setError("Invalid username or password");
     }
@@ -104,7 +113,7 @@ const SignInForm = () => {
         <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
           or
         </div>
-        <GoogleSignInButton callbackUrl="/">
+        <GoogleSignInButton callbackUrl="/home">
           Sign in with Google
         </GoogleSignInButton>
         <p className="text-center text-sm text-gray-600 mt-2">

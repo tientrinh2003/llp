@@ -9,7 +9,9 @@ function isProtectedPath(pathname: string) {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
+  if (pathname === "/") {
+    return NextResponse.redirect(new URL("/home", request.url));
+  }
   // Allow API and public/auth paths
   if (
     pathname.startsWith('/api') ||
@@ -35,5 +37,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*', '/user/:path*'],
+  matcher: ['/', '/admin/:path*', '/user/:path*'],
 };
