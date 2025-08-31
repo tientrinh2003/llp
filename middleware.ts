@@ -1,34 +1,35 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getToken } from "next-auth/jwt";
 
-const protectedPaths = ['/admin', '/user'];
-
-function isProtectedPath(pathname: string) {
-  return protectedPaths.some((basePath) => pathname.startsWith(basePath));
-}
-
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Redirect "/" về "/home"
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/home", request.url));
   }
-  // Allow API and public/auth paths
+
+  // Cho phép truy cập API và auth
   if (
     pathname.startsWith('/api') ||
-    pathname === '/' ||
     pathname.startsWith('/auth')
   ) {
     return NextResponse.next();
   }
 
-  // Protect /admin and /user routes
-  if (isProtectedPath(pathname)) {
-    const token =
-      request.cookies.get('next-auth.session-token')?.value ||
-      request.cookies.get('__Secure-next-auth.session-token')?.value;
+  // Bảo vệ /admin: chỉ cho ADMIN
+  if (pathname.startsWith('/admin')) {
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
+    if (!token || token.role !== "ADMIN") {
+      return NextResponse.redirect(new URL('/home', request.url));
+    }
+  }
 
+  // Bảo vệ /user: chỉ cho user đã đăng nhập
+  if (pathname.startsWith('/user')) {
+    const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
     if (!token) {
-      // Redirect unauthenticated users to sign-in
       return NextResponse.redirect(new URL('/auth/sign-in', request.url));
     }
   }
