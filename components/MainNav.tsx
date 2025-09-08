@@ -109,7 +109,7 @@ const MainNav = () => {
       {/* Đăng nhập/Đăng xuất/Avatar */}
       <div className="ml-2 md:ml-6 flex items-center gap-2">
         {status === "loading" ? (
-          <span className="text-white">...</span>
+          <span className="text-black">...</span>
         ) : session?.user ? (
           <>
             {session.user.image ? (
@@ -121,7 +121,7 @@ const MainNav = () => {
                 className="rounded-full"
               />
             ) : (
-              <User size={28} className="text-white" />
+              <User size={28} className="text-black" />
             )}
             <span className="hidden sm:inline text-white font-medium truncate max-w-[120px]">
               {session.user.name ||
