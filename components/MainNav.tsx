@@ -90,22 +90,21 @@ const MainNav = () => {
       </div>
 
       {/* Navigation Links (Desktop) */}
-      <ul className="hidden lg:flex items-center space-x-4 md:space-x-8 ml-4 md:ml-8">
-        {navItems.map((item) => (
-          <li key={item.label}>
-            <Link
-              href={item.href}
-              className="flex items-center gap-2 text-primary-foreground hover:text-foreground/80 transition-colors"
-            >
-              <item.icon size={20} />
-              <span className="font-medium text-muted-foreground">
-                {item.label}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-
+      <ul className="hidden lg:flex items-center space-x-4 md:space-x-6 ml-4 md:ml-8">
+  {navItems.map((item) => (
+    <li key={item.label}>
+      <Link href={item.href}>
+        <Button
+          className="bg-[#F8E05C] hover:bg-[#FAD200] text-black flex gap-2 items-center rounded-lg px-4 py-2 transition-colors shadow-none"
+        >
+          <item.icon size={20} />
+          <span className="font-medium">{item.label}</span>
+        </Button>
+      </Link>
+    </li>
+  ))}
+</ul>
+      
       {/* Đăng nhập/Đăng xuất/Avatar */}
       <div className="ml-2 md:ml-6 flex items-center gap-2">
         {status === "loading" ? (
