@@ -42,7 +42,7 @@ const MainNav = () => {
     await signOut({ callbackUrl: "/sign-in" });
   };
 
-  return (
+return (
     <nav className="bg-primary h-[100px] flex items-center justify-between px-4 md:px-8 relative">
       {/* Logo + Search */}
       <div className="flex items-center gap-4 flex-grow min-w-0">
@@ -91,25 +91,23 @@ const MainNav = () => {
 
       {/* Navigation Links (Desktop) */}
       <ul className="hidden lg:flex items-center space-x-4 md:space-x-8 ml-4 md:ml-8">
-        {navItems.map((item) => (
-          <li key={item.label}>
-            <Link
-              href={item.href}
-              className="flex items-center gap-2 text-primary-foreground hover:text-foreground/80 transition-colors"
-            >
-              <item.icon size={20} />
-              <span className="font-medium text-muted-foreground">
-                {item.label}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
-
+  {navItems.map((item) => (
+    <li key={item.label}>
+      <Link
+        href={item.href}
+        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#F8E05C] hover:bg-[#F5DA4D] text-[#454545] hover:text-[#FFFFFF] transition-colors"
+      >
+        <item.icon size={20} />
+        <span className="font-medium">{item.label}</span>
+      </Link>
+    </li>
+  ))}
+</ul>
+      
       {/* Đăng nhập/Đăng xuất/Avatar */}
       <div className="ml-2 md:ml-6 flex items-center gap-2">
         {status === "loading" ? (
-          <span className="text-white">...</span>
+          <span className="text-black">...</span>
         ) : session?.user ? (
           <>
             {session.user.image ? (
@@ -121,7 +119,7 @@ const MainNav = () => {
                 className="rounded-full"
               />
             ) : (
-              <User size={28} className="text-white" />
+              <User size={28} className="text-black" />
             )}
             <span className="hidden sm:inline text-white font-medium truncate max-w-[120px]">
               {session.user.name ||
