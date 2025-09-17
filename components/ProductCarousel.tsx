@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
 
+// ============================
+// DATA
+// ============================
 const categories = [
   {
     title: "Nhà thông minh",
@@ -71,15 +74,20 @@ const categories = [
   },
 ];
 
+// ============================
+// COMPONENT
+// ============================
 const ProductCarousel = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
+  // khi select item
   const onSelect = useCallback((api: CarouselApi) => {
     if (!api) return;
     setCurrent(api.selectedScrollSnap());
   }, []);
 
+  // gắn listener cho carousel
   useEffect(() => {
     if (!api) return;
     onSelect(api);
@@ -111,6 +119,7 @@ const ProductCarousel = () => {
                       isSelected ? "scale-110 z-10" : "scale-90 opacity-50"
                     )}
                   >
+                    {/* TITLE */}
                     <h3
                       className={cn(
                         "text-center text-[20px] md:text-[22px] lg:text-[24px] font-barlow font-semibold text-gray-500 transition-opacity duration-500 whitespace-nowrap",
@@ -120,18 +129,21 @@ const ProductCarousel = () => {
                       {category.title}
                     </h3>
 
+                    {/* CARD */}
                     <div className="relative w-full aspect-[9/16] bg-primary overflow-visible font-semibold font-barlow rounded-lg shadow-lg">
-                      {/* Background/Main image */}
+                      {/* MAIN IMAGE */}
                       <div
                         className={cn(
-                          "absolute top-[160px] left-[100px] -translate-x-1/2 -translate-y-1/2 w-[140px] h-[120px] z-10 transition-all duration-500 ease-in-out",
-                          position < 0 && "-translate-y-[55px] -translate-x-[70px]", // left item
-                          position > 0 && "-translate-y-[55px] -translate-x-[70px]" // right item
+                          "absolute top-[40%] right-[-15%] w-[170px] h-[150px] z-20 opacity-90 transition-all duration-500 ease-in-out",
+                           position === 0 && "w-[180px] h-[160px]",
+    position < 0 && "w-[140px] h-[120px] translate-y-[15%] translate-x-[-45%]",
+    position > 0 && "w-[140px] h-[120px] translate-y-[15%] translate-x-[-45%]"
                         )}
                       >
                         <Image
                           src={
-                            category.images?.[0] || "/products/may-bom-pentax.png"
+                            category.images?.[0] ||
+                            "/products/may-bom-pentax.png"
                           }
                           alt={`${category.title} - main`}
                           fill
@@ -141,19 +153,19 @@ const ProductCarousel = () => {
                         />
                       </div>
 
-                      {/* Top image */}
+                      {/* TOP IMAGE */}
                       <div
                         className={cn(
-                          "absolute top-[-10px] right-[52px] w-[140px] h-[120px] z-20 opacity-90 transition-all duration-500 ease-in-out",
-                          position < 0 &&
-                            "-translate-y-[-30px] translate-x-[20px]",
-                          position > 0 &&
-                            "-translate-y-[-30px] translate-x-[20px]"
+                          "absolute top-[-5%] right-[10%] w-[180px] h-[160px] z-20 opacity-90 transition-all duration-500 ease-in-out",
+                           position === 0 && "w-[180px] h-[160px]",
+    position < 0 && "w-[140px] h-[120px] translate-y-[45%] translate-x-[13%]",
+    position > 0 && "w-[140px] h-[120px] translate-y-[45%] translate-x-[13%]"
                         )}
                       >
                         <Image
                           src={
-                            category.images?.[1] || "/products/may-bom-pentax.png"
+                            category.images?.[1] ||
+                            "/products/may-bom-pentax.png"
                           }
                           alt={`${category.title} - top`}
                           fill
@@ -162,17 +174,19 @@ const ProductCarousel = () => {
                         />
                       </div>
 
-                      {/* Bottom image */}
+                      {/* BOTTOM IMAGE */}
                       <div
                         className={cn(
-                          "absolute bottom-[-40px] left-[2px] w-[160px] h-[140px] z-20 opacity-90 transition-all duration-500 ease-in-out",
-                          position < 0 && "-translate-y-[30px] translate-x-[10px]",
-                          position > 0 && "-translate-y-[30px] translate-x-[10px]"
+                          "absolute top-[70%] right-[8%] w-[180px] h-[160px] z-20 opacity-90 transition-all duration-500 ease-in-out",
+                           position === 0 && "w-[180px] h-[160px]",
+    position < 0 && "w-[140px] h-[120px] translate-y-[-20%] translate-x-[-8%]",
+    position > 0 && "w-[140px] h-[120px] translate-y-[-20%] translate-x-[-8%]"
                         )}
                       >
                         <Image
                           src={
-                            category.images?.[2] || "/products/may-bom-pentax.png"
+                            category.images?.[2] ||
+                            "/products/may-bom-pentax.png"
                           }
                           alt={`${category.title} - bottom`}
                           fill
@@ -187,6 +201,7 @@ const ProductCarousel = () => {
             })}
           </CarouselContent>
 
+          {/* NAVIGATION */}
           <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 -left-6 sm:-left-8 md:-left-10 lg:-left-14 xl:-left-20 z-20 h-12 w-12 rounded-full bg-white/80 text-primary shadow-md hover:bg-white" />
           <CarouselNext className="absolute top-1/2 -translate-y-1/2 -right-6 sm:-right-8 md:-right-10 lg:-right-14 xl:-right-20 z-20 h-12 w-12 rounded-full bg-white/80 text-primary shadow-md hover:bg-white" />
         </Carousel>
